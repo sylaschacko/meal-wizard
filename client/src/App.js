@@ -6,8 +6,8 @@ function App() {
   const [input, setInput] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
-  // const [cuisine, setCuisine] = useState("");
-  // const [cuisineInput, setCuisineInput] = useState("");
+  const [cuisine, setCuisine] = useState("");
+  const [cuisineInput, setCuisineInput] = useState("");
 
   const addIngredient = () => {
     if (input) {
@@ -150,7 +150,7 @@ function App() {
         <div className="recipes">
           <h2 className="title">Recipes:</h2>
           <div>
-            {/* <input
+            <input
               placeholder="Specify a cuisine or leave blank"
               value={cuisineInput}
               onChange={(e) => setCuisineInput(e.target.value)}
@@ -159,7 +159,7 @@ function App() {
                   specifyCuisine();
                 }
               }}
-            /> */}
+            />
           </div>
 
           <div>
