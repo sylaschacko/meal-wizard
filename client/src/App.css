@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Itim&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #EAEEF1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App {
+  text-align: center;
+}
+
+.appName {
+  font-family: "Irish Grover", system-ui;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  padding: 10px;
+  width: 20rem;
+  border: 1px solid #D3D3D3;
+  border-radius: 10px;
+  font-family: "Itim", cursive;
+  margin-bottom: 20px;
+}
+
+.ingredients {
+  width: 23rem;
+  height: 15rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: scroll;
+  margin-bottom: 30px;
+}
+
+.ingredients-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.delete-button {
+  background-color: none;
+  cursor: pointer;
+}
+
+.ingredient-item {
+  background-color: white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.title{
+  /* margin-left: 15px; */
+  font-size: 20px;
+  font-family: "Itim", cursive;
+}
+
+.recipes {
+  width: 23rem;
+  height: 25rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: scroll;
+  margin-bottom: 30px;
+}
+
+.recipe {
+  font-size: 15px;
+  font-family: "Poppins", sans-serif;
+}
+
+.recipes-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recipe-item {
+  background-color: white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 20rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
