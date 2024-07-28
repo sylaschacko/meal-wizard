@@ -26,55 +26,118 @@ function App() {
     );
   };
 
-  const fetchRecipes = async () => {
-    try {
-      const response = await axios.get(
-        "https://api.spoonacular.com/recipes/findByIngredients",
-        {
-          params: {
-            ingredients: ingredients.join(","),
-            number: 5,
-            apiKey: "256a732328dd4011a0b093bc7ea667b3",
-          },
-        }
-      );
-
-      const recipeIds = response.data.map((recipe) => recipe.id);
-      const recipeUrlsPromises = recipeIds.map((id) =>
-        axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {
-          params: {
-            apiKey: "256a732328dd4011a0b093bc7ea667b3",
-          },
-        })
-      );
-
-      const recipeUrlsResponses = await Promise.all(recipeUrlsPromises);
-      const recipeUrls = recipeUrlsResponses.map((res) => res.data);
-
-      const combinedInfo = response.data.map((recipe) => {
-        const recipeUrl = recipeUrls.find((res) => res.id === recipe.id);
-        return {
-          ...recipe,
-          sourceUrl: recipeUrl.sourceUrl,
-        };
-      });
-      console.log(combinedInfo);
-      setRecipes(combinedInfo);
-    } catch (error) {
-      console.log(error.message);
+  useEffect(() => {
+    async function fetchRecipes() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/recipes/fetch"
+        );
+        // setRecipes(response.data);
+      } catch (error) {
+        console.log(error.message);
+      }
     }
-  };
 
-  const specifyCuisine = (e) => {
-    setCuisine(cuisineInput);
-    setInput("");
-  };
+    fetchRecipes();
+  }, []);
 
   useEffect(() => {
+    const searchRecipes = async () => {
+      try {
+        const query = new URLSearchParams();
+        if (ingredients.length > 0) {
+          query.append("ingredients", ingredients.join(","));
+        }
+        const response = await axios.get(
+          `http://localhost:5000/api/recipes/search?${query.toString()}`
+        );
+        console.log(response.data);
+        setRecipes(response.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
     if (ingredients.length > 0) {
-      fetchRecipes();
+      searchRecipes();
+    } else {
+      setRecipes([]);
     }
-  }, [ingredients, fetchRecipes]);
+  }, [ingredients]);
+
+  // const searchRecipes = async () => {
+  //   try {
+  //     const query = new URLSearchParams();
+  //     if (ingredients.length > 0) {
+  //       query.append("ingredients", ingredients.join(","));
+  //     }
+  //     const response = await axios.get(
+  //       `http://localhost:5000/api/recipes/search?${query.toString()}`
+  //     );
+  //     console.log(response.data);
+  //     setRecipes(response.data);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (ingredients.length > 0) {
+  //     searchRecipes();
+  //   } else {
+  //     setRecipes([]);
+  //   }
+  // }, [ingredients, searchRecipes]);
+
+  // const fetchRecipes = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "https://api.spoonacular.com/recipes/findByIngredients",
+  //       {
+  //         params: {
+  //           ingredients: ingredients.join(","),
+  //           number: 5,
+  //           apiKey: "256a732328dd4011a0b093bc7ea667b3",
+  //         },
+  //       }
+  //     );
+
+  //     const recipeIds = response.data.map((recipe) => recipe.id);
+  //     const recipeUrlsPromises = recipeIds.map((id) =>
+  //       axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {
+  //         params: {
+  //           apiKey: "256a732328dd4011a0b093bc7ea667b3",
+  //         },
+  //       })
+  //     );
+
+  //     const recipeUrlsResponses = await Promise.all(recipeUrlsPromises);
+  //     const recipeUrls = recipeUrlsResponses.map((res) => res.data);
+
+  //     const combinedInfo = response.data.map((recipe) => {
+  //       const recipeUrl = recipeUrls.find((res) => res.id === recipe.id);
+  //       return {
+  //         ...recipe,
+  //         sourceUrl: recipeUrl.sourceUrl,
+  //       };
+  //     });
+  //     console.log(combinedInfo);
+  //     setRecipes(combinedInfo);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  // const specifyCuisine = (e) => {
+  //   setCuisine(cuisineInput);
+  //   setInput("");
+  // };
+
+  // useEffect(() => {
+  //   if (ingredients.length > 0) {
+  //     fetchRecipes();
+  //   }
+  // }, [ingredients, fetchRecipes]);
 
   return (
     <body>
@@ -120,7 +183,7 @@ function App() {
         <div className="recipes">
           <h2 className="title">Recipes:</h2>
           <div>
-            <input
+            {/* <input
               placeholder="Specify a cuisine or leave blank"
               value={cuisineInput}
               onChange={(e) => setCuisineInput(e.target.value)}
@@ -129,13 +192,13 @@ function App() {
                   specifyCuisine();
                 }
               }}
-            />
+            /> */}
           </div>
 
           <div>
             <div className="recipes-list">
               {recipes.map((recipe) => (
-                <div key={recipe.id} className="recipe-item">
+                <div key={recipe.spoonacularId} className="recipe-item">
                   <a
                     href={recipe.sourceUrl}
                     target="_blank"
@@ -143,7 +206,7 @@ function App() {
                   >
                     <h2 className="recipe">{recipe.title}</h2>
                   </a>
-                  <p>{recipe.missedIngredientCount} missing</p>
+                  {/* <p>{recipe.missedIngredientCount} missing</p> */}
                 </div>
               ))}
             </div>
